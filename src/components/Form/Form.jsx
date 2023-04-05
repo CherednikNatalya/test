@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid'
 import css from './Form.module.css';
-import { PropTypes } from 'prop-types';
+// import { PropTypes } from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
+import {addContact} from '../../redux/action'
+import {getContacts} from '../../redux/reducer'
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-export const Form =({onSubmitForm}) => {
+
+export const Form =() => {
+
  const [name, setName] = useState('')
  const [number, setNumber] = useState('')
 
+ const dispatch = useDispatch();
+const contacts = useSelector(getContacts)
   const nameId = nanoid()
   const numberId = nanoid()
 
@@ -27,7 +35,12 @@ export const Form =({onSubmitForm}) => {
  
      const handleSubmit = event => {
         event.preventDefault()
-        onSubmitForm(name, number);
+        if (contacts.some(contact => contact.name === name && contact.number === number)) {
+          Notify.failure(`${name} is already in contacts !`);
+        } else {
+          dispatch(addContact({ id: nanoid(), name, number }));
+        }
+
         setName('')
         setNumber('')
     }
@@ -78,9 +91,9 @@ export const Form =({onSubmitForm}) => {
 
 
 
-Form.propTypes = {
-  onSubmitForm: PropTypes.func.isRequired,
-}
+// Form.propTypes = {
+//   onSubmitForm: PropTypes.func.isRequired,
+// }
 
 
 

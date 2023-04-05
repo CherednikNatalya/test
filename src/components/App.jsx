@@ -1,18 +1,23 @@
-import { useEffect, useState, useRef } from 'react';
-import { nanoid } from 'nanoid'
+import { useEffect,  useRef } from 'react';
 
 import {Section} from './Section/Section'
 import {Form} from './Form/Form'
 import {ContactsList} from './User/ContactsList'
 import {FilterByName} from './FilterByName/FilterByName'
+import { useSelector } from "react-redux";
+
+// import { contactsSearch} from '../redux/action'
 
 
 
   export const App =() => {
-    const [filter, setFilter] = useState('')
-    const [contacts, setContacts] = useState(()=> {
-     return JSON.parse(localStorage.getItem('contacts')) || []})
-  
+    // const [filter, setFilter] = useState('')
+    // const [contacts, setContacts] = useState(()=> {
+    //  return JSON.parse(localStorage.getItem('contacts')) || []})
+    const contacts = useSelector(state => state.contacts);
+    // const filter = useSelector(state => state.filter);
+    // const dispatch = useDispatch();
+
      const firstRender = useRef(true);
 
      useEffect (()=>{
@@ -25,62 +30,40 @@ import {FilterByName} from './FilterByName/FilterByName'
     },[contacts])
 
 
-    const onSubmiHandler = (name, number) => {
-      const contact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-      setContacts(contacts => {
-        const includeName = contacts.find(user => user.name === contact.name);
-        if (includeName) {
-          alert(`${contact.name} is already in contacs`);
-          return [...contacts];
-        } else {
-          return [contact, ...contacts];
-        }
-      });
-    };
+    // const handelChange = e => {
+    //   dispatch(contactsSearch(e.target.value));
+    // };
+
   
-    const handelChange = e => {
-      const { value } = e.target;
-      setFilter(value);
-    };
+    // const handleDelete = () => {
+    //   dispatch(deleteContact(contacts.id));
+    // };
   
-    const handleDelete = id => {
-      setContacts(prevState => {
-        const newContactList = prevState.filter(contact => contact.id !== id);
-        console.log(newContactList);
+    // const filterContacts = contacts.filter(contact =>
+    //   contact.name.toLowerCase().includes(filter.toLowerCase())
+    // );
   
-        return [...newContactList];
-      });
-    };
-  
-    const filterContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  
-  
-  
-      
+    // const filterContacts = () = {
+    //   dispatch(filterContacts(contacts));
+    // }
+
         return (
       <>
       <Section>
-      <Form 
-      onSubmitForm={onSubmiHandler}/>
+      <Form />
       </Section>
   
       <Section>
-      <FilterByName 
-      filter ={filter}
-      onChange={handelChange}/>
+      <FilterByName/>
       <ContactsList 
-      contactList={filterContacts}
-      onDelete={handleDelete}/> 
+      // contactList={filterContacts}
+      /> 
       </Section>
   </>
     );
-    };
+   
+  }
+        
    
 
 
