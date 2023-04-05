@@ -40,4 +40,4 @@ const initialState = {
     })
 
     export const getContacts = state => state.contacts;
-    export const getId = state => state.contacts.id;
+    export const getFilter = state => state.filter;

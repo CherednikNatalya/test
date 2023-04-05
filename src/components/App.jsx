@@ -55,9 +55,7 @@ import { useSelector } from "react-redux";
   
       <Section>
       <FilterByName/>
-      <ContactsList 
-      // contactList={filterContacts}
-      /> 
+      <ContactsList /> 
       </Section>
   </>
     );
