@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 import css from './Form.module.css';
 // import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
-import {addContact} from '../../redux/action'
+import {addContact} from '../../redux/slice'
 import {getContacts} from '../../redux/reducer'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
@@ -15,6 +15,7 @@ export const Form =() => {
 
  const dispatch = useDispatch();
 const contacts = useSelector(getContacts)
+
   const nameId = nanoid()
   const numberId = nanoid()
 

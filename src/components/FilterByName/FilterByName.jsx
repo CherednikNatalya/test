@@ -1,25 +1,22 @@
 import css from './FilterByName.module.css'
-import { Contact } from '../User/Contact';
-import { useMemo } from 'react';
-import {NotFound} from '../NotFound/NotFound'
+// import { Contact } from '../User/Contact';
+// import { useMemo } from 'react';
+// import {NotFound} from '../NotFound/NotFound'
 // import { PropTypes } from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
-import {filterSearch} from "redux/action";
-import {getFilter, getContacts} from 'redux/reducer'
+import { useDispatch } from "react-redux";
+import {filterSearch} from "redux/slice";
+// import {getFilter, getContacts} from 'redux/reducer'
 
 export const FilterByName = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+  const dispatch = useDispatch(); 
+  // const contacts = useSelector(getContacts);
+  // const filter = useSelector(getFilter);
 
-const filterContacts  = useMemo(() => {
-  return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  }, [contacts, filter]);
-
-
-
+// const filterContacts  = useMemo(() => {
+//   return contacts.filter(contact =>
+//       contact.name.toLowerCase().includes(filter.toLowerCase())
+//     );
+//   }, [contacts, filter]);
 
 	const onChange = e => {
 		const value = e.target.value.toLowerCase();
@@ -41,16 +38,12 @@ const filterContacts  = useMemo(() => {
         onChange={onChange}
       />
     </label>
-    <div>
-    {filterContacts.length? (
-              filterContacts.map(item => (
-                <Contact key={item.id} contact={item}/>
-              ))
-            ): (
-              <NotFound/>
-            )
-          }
-            </div>
+    
+    {/* filterContacts.lengh? (<ul className={css.formStyle}>
+      {filterContacts.map(item => (
+        <Contact key={item.id} contact={item}/>
+      ))}
+    </ul>) */}
   
   </>
   )
