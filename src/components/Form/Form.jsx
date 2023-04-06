@@ -4,7 +4,7 @@ import css from './Form.module.css';
 // import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import {addContact} from '../../redux/slice'
-import {getContacts} from '../../redux/reducer'
+// import {getContacts} from '../../redux/reducer'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
@@ -14,7 +14,7 @@ export const Form =() => {
  const [number, setNumber] = useState('')
 
  const dispatch = useDispatch();
-const contacts = useSelector(getContacts)
+const contacts = useSelector(state => state.contacts.contacts);
 
   const nameId = nanoid()
   const numberId = nanoid()
@@ -29,19 +29,28 @@ const contacts = useSelector(getContacts)
         case 'number':
         setNumber(value);
         break;
-   default:
-    console.log('//////')
+        default:
+          return;
     }
   };
  
      const handleSubmit = event => {
         event.preventDefault()
-        if (contacts.some(contact => contact.name === name && contact.number === number)) {
+        const data = {
+          id: nanoid(),
+          name,
+          number,
+        };
+        const newName = contacts.find(
+          el => el.name.toLowerCase() === name.toLowerCase()
+        );
+        if (newName) {
           Notify.failure(`${name} is already in contacts !`);
+          return
         } else {
-          dispatch(addContact({ id: nanoid(), name, number }));
+          dispatch(addContact(data));
         }
-
+        
         setName('')
         setNumber('')
     }

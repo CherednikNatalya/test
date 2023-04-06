@@ -1,27 +1,16 @@
 import css from './FilterByName.module.css'
-// import { Contact } from '../User/Contact';
-// import { useMemo } from 'react';
-// import {NotFound} from '../NotFound/NotFound'
+import {useDispatch, useSelector } from "react-redux";
 // import { PropTypes } from 'prop-types';
-import { useDispatch } from "react-redux";
-import {filterSearch} from "redux/slice";
-// import {getFilter, getContacts} from 'redux/reducer'
+import {contactsSearch} from "redux/slice";
+
 
 export const FilterByName = () => {
   const dispatch = useDispatch(); 
-  // const contacts = useSelector(getContacts);
-  // const filter = useSelector(getFilter);
+  const filter = useSelector(state => state.contacts.filter);
 
-// const filterContacts  = useMemo(() => {
-//   return contacts.filter(contact =>
-//       contact.name.toLowerCase().includes(filter.toLowerCase())
-//     );
-//   }, [contacts, filter]);
-
-	const onChange = e => {
-		const value = e.target.value.toLowerCase();
-		dispatch(filterSearch(value));
-	};
+	const changeFilter= data => {
+    dispatch(contactsSearch(data));
+};
 
   return (
     <>
@@ -30,21 +19,16 @@ export const FilterByName = () => {
       <input
         className={css.inputStyle}
         type="text"
-        name="name"
+        name="filter"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
-        // value={filter}
-        onChange={onChange}
+        value={filter}
+        onChange={e => changeFilter(e.target.value)}
       />
     </label>
     
-    {/* filterContacts.lengh? (<ul className={css.formStyle}>
-      {filterContacts.map(item => (
-        <Contact key={item.id} contact={item}/>
-      ))}
-    </ul>) */}
-  
+
   </>
   )
 }

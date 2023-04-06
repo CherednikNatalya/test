@@ -1,33 +1,27 @@
-// import { Contact } from './Contact';
-// import {NotFound} from '../NotFound/NotFound'
 import css from './ContactsList.module.css';
-// import { PropTypes } from 'prop-types';
 import {useDispatch, useSelector } from "react-redux";
-import {getContacts} from 'redux/reducer'
 import {deleteContact} from 'redux/slice'
+import { PropTypes } from "prop-types";
 
-export const ContactsList =() => {
-  const contacts = useSelector(getContacts);
+export default function ContactsList () {
+  const contacts = useSelector(state => state.contacts.contacts.filter(contact => contact.name.toLowerCase().includes(state.contacts.filter)));
   const dispatch = useDispatch();
-  // const contacts = useSelector(getContacts);
-  // const filterContacts = useSelector(getFilter);
  
   const onDeleteContact = id => {
     dispatch(deleteContact(id));
   };
 
-
-
     return(
         <div className={css.formStyle}>
-            {/* <h2 className={css.title}>Contacts</h2> */}
-            <ul className={css.contacts}>
-      {contacts.map(({ id, name, number }) => (
-        <li className={css.contact__list} key={id}>
-          <span className={css.contact__item}>{name}: </span>
-          <span className="contact__item">{number} </span>
+          
+            <ul className={css.contactsList}>
+      {contacts.map(({ id, name, number }) =>(
+        <li className={css.listItem} key={id}>
+          <p className={css.titleli}>
+        {name}: {number}
+      </p>
           <button
-            className={css.contacts__button}
+            className={css.addButton}
             type="button"
             onClick={() => onDeleteContact (id)}
           >
@@ -40,15 +34,15 @@ export const ContactsList =() => {
     )
   }
 
-// ContactsList.propTypes ={
-//   contactList: PropTypes.arrayOf(
-//     PropTypes.shape({ id: PropTypes.string.isRequired})  
-//   ),
-  
-
-// }
-
-
+  ContactsList.propTypes = {
+	contacts: PropTypes.arrayOf(
+		PropTypes.exact({
+			id: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+			number: PropTypes.string.isRequired,
+		})
+	),
+};
 
 
 
