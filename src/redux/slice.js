@@ -14,7 +14,7 @@ initialState: {
 	],
     filter:'',
 },
-reducer: {
+reducers: {
     addContact(state, action) {
         const contact = {
             id: nanoid(),
